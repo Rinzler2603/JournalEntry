@@ -1,9 +1,8 @@
 package net.engineeringdigest.journalApp.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,36 +12,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.engineeringdigest.journalApp.entity.JournalEntry;
+import net.engineeringdigest.service.JournalEntryService;
 
 @RestController
 @RequestMapping("/journal")
-public class JounalEntryController {
-    private Map<Long, JournalEntry> journalEntries = new HashMap<>();
+public class JournalEntryControllerV2{
+
+    @Autowired
+    private JournalEntryService journalEntryService;
 
 // Get All Entries
     @GetMapping
     public ArrayList<JournalEntry> getAll(){
-        return new ArrayList<>(journalEntries.values());
+        return null;
     }
 
 //  Get entry by ID
     @GetMapping("/getEntry/{id}")
     public JournalEntry getById(@PathVariable long id){
-        return journalEntries.get(id);
+        return null;
     }
 
 //  "Enter a single new entry"
     @PostMapping
     public boolean createEntry(@RequestBody JournalEntry MyEntry){
-        journalEntries.put(MyEntry.getId(), MyEntry);
+        journalEntryService.saveEntry(MyEntry);
         return true;
     }
 
 //  Delete a single new entry
     @DeleteMapping("/delEntry/{id}")
     public boolean deleteEntry(@PathVariable long id){
-        if(!journalEntries.containsKey(id)) return false;
-        journalEntries.remove(id);
-        return true;
+        return false;
     }
 }
